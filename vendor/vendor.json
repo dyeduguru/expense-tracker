@@ -9,6 +9,18 @@
 			"revisionTime": "2017-01-04T18:22:50Z"
 		},
 		{
+			"checksumSHA1": "g/V4qrXjUGG9B+e3hB+4NAYJ5Gs=",
+			"path": "github.com/gorilla/context",
+			"revision": "08b5f424b9271eedf6f9f0ce86cb9396ed337a42",
+			"revisionTime": "2016-08-17T18:46:32Z"
+		},
+		{
+			"checksumSHA1": "F5dR3/i70EhSIMZfeIV+H8/PtvM=",
+			"path": "github.com/gorilla/mux",
+			"revision": "392c28fe23e1c45ddba891b0320b3b5df220beea",
+			"revisionTime": "2017-01-18T13:43:44Z"
+		},
+		{
 			"checksumSHA1": "tvimR1R9mxvCDSUxlnKgIXjJBus=",
 			"path": "github.com/lib/pq",
 			"revision": "67c3f2a8884c9b1aac5503c8d42ae4f73a93511c",
