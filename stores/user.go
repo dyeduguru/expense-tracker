@@ -29,8 +29,8 @@ func (s *UserStore) Create(user *api.User) error {
 	return nil
 }
 
-func (s *UserStore) Read(id string) (*api.User, error) {
-	rows, err := s.db.Query("select * from expenses where $1=$2;", "id", id)
+func (s *UserStore) Read(username string) (*api.User, error) {
+	rows, err := s.db.Query("select * from expenses where $1=$2;", "username", username)
 	if err != nil {
 		return nil, stacktrace.Propagate(err, "")
 	}

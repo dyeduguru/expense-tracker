@@ -11,7 +11,7 @@ type User struct {
 
 type UserStore interface {
 	Create(user *User) error
-	Read(id string) (*User, error)
+	Read(username string) (*User, error)
 	Update(user *User) error
 	Delete(id string) error
 }
