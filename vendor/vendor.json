@@ -13,6 +13,18 @@
 			"path": "github.com/lib/pq/oid",
 			"revision": "67c3f2a8884c9b1aac5503c8d42ae4f73a93511c",
 			"revisionTime": "2017-01-17T20:56:33Z"
+		},
+		{
+			"checksumSHA1": "bSPyzqKdK0cTlV4U8nH7oe6P+Gk=",
+			"path": "github.com/palantir/stacktrace",
+			"revision": "78658fd2d1772b755720ed8c44367d11ee5380d6",
+			"revisionTime": "2016-10-22T16:26:52Z"
+		},
+		{
+			"checksumSHA1": "YMAHXE8lCDGzmdCDaf/kL3lDD6E=",
+			"path": "github.com/palantir/stacktrace/cleanpath",
+			"revision": "78658fd2d1772b755720ed8c44367d11ee5380d6",
+			"revisionTime": "2016-10-22T16:26:52Z"
 		}
 	],
 	"rootPath": "github.com/dyeduguru/expense-tracker"
