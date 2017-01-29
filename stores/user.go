@@ -1,4 +1,4 @@
-package user
+package stores
 
 import (
 	"database/sql"
@@ -6,15 +6,15 @@ import (
 	"github.com/palantir/stacktrace"
 )
 
-type Store struct{
+type UserStore struct{
 	db *sql.DB
 }
 
-func NewStore(db *sql.DB) *Store {
-	return &Store{db:db}
+func NewUserStore(db *sql.DB) *UserStore {
+	return &UserStore{db:db}
 }
 
-func (s *Store) Create(user *api.User) error {
+func (s *UserStore) Create(user *api.User) error {
 	query := `INSERT INTO users(id, admin, username, password, name)
 	values ($1,$2,$3,$4,$5)`
 	stmt, err := s.db.Prepare(query)
@@ -29,7 +29,7 @@ func (s *Store) Create(user *api.User) error {
 	return nil
 }
 
-func (s *Store) Read(id string) (*api.User, error) {
+func (s *UserStore) Read(id string) (*api.User, error) {
 	rows, err := s.db.Query("select * from expenses where $1=$2;", "id", id)
 	if err != nil {
 		return nil, stacktrace.Propagate(err, "")
@@ -45,7 +45,7 @@ func (s *Store) Read(id string) (*api.User, error) {
 	return users[0], nil
 }
 
-func (s *Store) Update(user *api.User) error {
+func (s *UserStore) Update(user *api.User) error {
 	query := `update users set admin=$2,username=$3,password=$4,name=$5 where id =$1`
 	stmt, err := s.db.Prepare(query)
 	if err != nil {
@@ -59,7 +59,7 @@ func (s *Store) Update(user *api.User) error {
 	return nil
 }
 
-func (s *Store) Delete(id string) error {
+func (s *UserStore) Delete(id string) error {
 	query := `delete from expenses where id =$1`
 	stmt, err := s.db.Prepare(query)
 	if err != nil {

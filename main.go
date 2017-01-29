@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	_ "github.com/lib/pq"
 	"github.com/dyeduguru/expense-tracker/api"
-	"github.com/dyeduguru/expense-tracker/user"
+	"github.com/dyeduguru/expense-tracker/stores"
 )
 
 type Config struct {
@@ -30,7 +30,7 @@ func main() {
 	}
 
 	var userStore api.UserStore
-	userStore = user.NewStore(db)
+	userStore = stores.NewUserStore(db)
 	if err := userStore.Create(&api.User{
 		Id: "1",
 		Admin:true,

@@ -1,4 +1,4 @@
-package expense
+package stores
 
 import (
 	"database/sql"
@@ -6,15 +6,15 @@ import (
 	"github.com/dyeduguru/expense-tracker/api"
 )
 
-type Store struct{
+type ExpenseStore struct{
 	db *sql.DB
 }
 
-func NewStore(db *sql.DB) *Store {
-	return &Store{db:db}
+func NewExpenseStore(db *sql.DB) *ExpenseStore {
+	return &ExpenseStore{db:db}
 }
 
-func (s *Store) Create(exp *api.Expense) error {
+func (s *ExpenseStore) Create(exp *api.Expense) error {
 	query := `INSERT INTO expenses(id, userid, amount, description, timestamp)
 	values ($1,$2,$3,$4,$5)`
 	stmt, err := s.db.Prepare(query)
@@ -29,7 +29,7 @@ func (s *Store) Create(exp *api.Expense) error {
 	return nil
 }
 
-func (s *Store) ReadAll() (api.Expenses, error) {
+func (s *ExpenseStore) ReadAll() (api.Expenses, error) {
 	rows, err := s.db.Query("select * from expenses;")
 	if err != nil {
 		return nil, stacktrace.Propagate(err, "")
@@ -38,7 +38,7 @@ func (s *Store) ReadAll() (api.Expenses, error) {
 	return getExpensesFromRows(rows)
 }
 
-func (s *Store) Read(id string) (*api.Expense, error) {
+func (s *ExpenseStore) Read(id string) (*api.Expense, error) {
 	rows, err := s.db.Query("select * from expenses where $1=$2;", "id", id)
 	if err != nil {
 		return nil, stacktrace.Propagate(err, "")
@@ -54,7 +54,7 @@ func (s *Store) Read(id string) (*api.Expense, error) {
 	return expenses[0], nil
 }
 
-func (s *Store) Update(exp *api.Expense) error {
+func (s *ExpenseStore) Update(exp *api.Expense) error {
 	query := `update expenses set userid=$2,amount=$3,description=$4,timestamp=$5 where id =$1`
 	stmt, err := s.db.Prepare(query)
 	if err != nil {
@@ -68,7 +68,7 @@ func (s *Store) Update(exp *api.Expense) error {
 	return nil
 }
 
-func (s *Store) Delete(id string) error {
+func (s *ExpenseStore) Delete(id string) error {
 	query := `delete from expenses where id =$1`
 	stmt, err := s.db.Prepare(query)
 	if err != nil {
