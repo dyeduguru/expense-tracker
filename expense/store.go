@@ -6,10 +6,6 @@ import (
 	"github.com/dyeduguru/expense-tracker/api"
 )
 
-const (
-	IDColoumn = "id"
-)
-
 type Store struct{
 	db *sql.DB
 }
@@ -43,7 +39,7 @@ func (s *Store) ReadAll() (api.Expenses, error) {
 }
 
 func (s *Store) Read(id string) (*api.Expense, error) {
-	rows, err := s.db.Query("select * from expenses where $1=$2;", IDColoumn, id)
+	rows, err := s.db.Query("select * from expenses where $1=$2;", "id", id)
 	if err != nil {
 		return nil, stacktrace.Propagate(err, "")
 	}

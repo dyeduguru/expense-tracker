@@ -3,10 +3,9 @@ package main
 import (
 	"fmt"
 	"database/sql"
-	"github.com/dyeduguru/expense-tracker/expense"
 	_ "github.com/lib/pq"
 	"github.com/dyeduguru/expense-tracker/api"
-	"time"
+	"github.com/dyeduguru/expense-tracker/user"
 )
 
 type Config struct {
@@ -30,14 +29,14 @@ func main() {
 		panic(err)
 	}
 
-	var expenseStore api.ExpenseStore
-	expenseStore = expense.NewStore(db)
-	if err = expenseStore.Update(&api.Expense{
+	var userStore api.UserStore
+	userStore = user.NewStore(db)
+	if err := userStore.Create(&api.User{
 		Id: "1",
-		UserId: "1",
-		Amount: 11.02,
-		Description: "This is a test description",
-		Timestamp: time.Now(),
+		Admin:true,
+		UserName: "yvdinesh",
+		Password: "2121",
+		Name: "Dinesh Yeduguru",
 	}); err != nil {
 		panic(err)
 	}
