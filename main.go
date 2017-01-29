@@ -3,9 +3,10 @@ package main
 import (
 	"fmt"
 	"database/sql"
-	"log"
 	"github.com/dyeduguru/expense-tracker/expense"
 	_ "github.com/lib/pq"
+	"github.com/dyeduguru/expense-tracker/api"
+	"time"
 )
 
 type Config struct {
@@ -29,13 +30,16 @@ func main() {
 		panic(err)
 	}
 
-	expenseStore := expense.NewStore(db)
-	allexpenses, err := expenseStore.GetAll()
-	if err != nil {
+	var expenseStore api.ExpenseStore
+	expenseStore = expense.NewStore(db)
+	if err = expenseStore.Update(&api.Expense{
+		Id: "1",
+		UserId: "1",
+		Amount: 11.02,
+		Description: "This is a test description",
+		Timestamp: time.Now(),
+	}); err != nil {
 		panic(err)
-	}
-	for _, exp := range allexpenses {
-		log.Printf("UserId: %v, Amount:%v, Description:%v", exp.UserId, exp.Amount, exp.Description)
 	}
 }
 
