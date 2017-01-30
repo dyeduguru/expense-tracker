@@ -16,10 +16,15 @@ var Home = React.createClass({
     return (
     <div className="container">
       <div className="col-xs-12 jumbotron text-center">
-        <h1>We R VR</h1>
-        <p>Provide valuable feedback to VR experience developers.</p>
+        <h1>Expense Tracker</h1>
+        <p>Save all your expenses securely online!</p>
         <a className="btn btn-primary btn-lg btn-login btn-block">Sign In</a>
       </div>
     </div>);
   }
 });
+
+ReactDOM.render(
+  <App />,
+  document.getElementById('app')
+);
