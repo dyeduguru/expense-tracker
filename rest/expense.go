@@ -23,10 +23,16 @@ func (expenseResource *ExpenseResource) List(w http.ResponseWriter, r *http.Requ
 		WriteJSON(w, err, http.StatusInternalServerError)
 		return
 	}
-	expenses, err := expenseResource.expenseStore.Read(user.Id)
+	var expenses api.Expenses
+	if user.Admin {
+		expenses, err = expenseResource.expenseStore.ReadAll()
+	} else {
+		expenses, err = expenseResource.expenseStore.Read(user.Id)
+	}
 	if err != nil {
 		WriteJSON(w, err, http.StatusInternalServerError)
 		return
 	}
+
 	WriteJSON(w, expenses, http.StatusOK)
 }
