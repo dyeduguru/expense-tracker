@@ -39,7 +39,7 @@ func (s *ExpenseStore) ReadAll() (api.Expenses, error) {
 }
 
 func (s *ExpenseStore) Read(userid string) (api.Expenses, error) {
-	rows, err := s.db.Query("select * from expenses where $1=$2;", "id", userid)
+	rows, err := s.db.Query("select * from expenses where userid=$1;", userid)
 	if err != nil {
 		return nil, stacktrace.Propagate(err, "")
 	}

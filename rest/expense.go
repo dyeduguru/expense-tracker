@@ -3,21 +3,30 @@ package rest
 import (
 	"github.com/dyeduguru/expense-tracker/api"
 	"net/http"
-	"log"
 )
 
 type ExpenseResource struct {
-	store api.ExpenseStore
+	expenseStore api.ExpenseStore
+	userStore api.UserStore
 }
 
-func NewExpenseResource(expenseStore api.ExpenseStore) *ExpenseResource {
-	return &ExpenseResource{store:expenseStore}
+func NewExpenseResource(expenseStore api.ExpenseStore, userStore api.UserStore) *ExpenseResource {
+	return &ExpenseResource{
+		expenseStore:expenseStore,
+		userStore:userStore,
+	}
 }
 
 func (expenseResource *ExpenseResource) List(w http.ResponseWriter, r *http.Request) {
-	expenses, err := expenseResource.store.ReadAll()
+	user, err := GetUserFromRequest(r, expenseResource.userStore)
 	if err != nil {
-		log.Print(err)
+		WriteJSON(w, err, http.StatusInternalServerError)
+		return
+	}
+	expenses, err := expenseResource.expenseStore.Read(user.Id)
+	if err != nil {
+		WriteJSON(w, err, http.StatusInternalServerError)
+		return
 	}
 	WriteJSON(w, expenses, http.StatusOK)
 }

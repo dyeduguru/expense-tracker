@@ -10,6 +10,9 @@ import (
 	"log"
 	"errors"
 	"fmt"
+	"github.com/dyeduguru/expense-tracker/api"
+	"github.com/gorilla/context"
+	"github.com/palantir/stacktrace"
 )
 
 type TokenResource struct {
@@ -20,8 +23,6 @@ type UserCredentials struct {
 	Username	string  `json:"username"`
 	Password	string	`json:"password"`
 }
-
-var mySigningKey = []byte("secret")
 
 func NewTokenResource(userStore *stores.UserStore) *TokenResource {
 	return &TokenResource{userStore:userStore}
@@ -65,4 +66,17 @@ func(tr *TokenResource) GetToken(w http.ResponseWriter, r *http.Request){
 
 	/* Finally, write the token to the browser window */
 	w.Write([]byte(tokenString))
+}
+
+func GetUserFromRequest(r *http.Request, userStore api.UserStore) (*api.User, error) {
+	parsedToken := context.Get(r,"user").(*jwt.Token)
+	if parsedToken == nil {
+		return nil, stacktrace.NewError("User not set on request")
+	}
+	username := parsedToken.Header["name"].(string)
+	user, err := userStore.Read(username)
+	if err != nil {
+		return nil, stacktrace.Propagate(err, "")
+	}
+	return user, nil
 }

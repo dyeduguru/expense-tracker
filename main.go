@@ -66,7 +66,7 @@ func main() {
 	//initialize resources
 	expenseStore := stores.NewExpenseStore(db)
 	userStore := stores.NewUserStore(db)
-	expenseResource := rest.NewExpenseResource(expenseStore)
+	expenseResource := rest.NewExpenseResource(expenseStore, userStore)
 	userResource := rest.NewTokenResource(userStore)
 
 	r := mux.NewRouter()

@@ -7,6 +7,8 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
+var mySigningKey = []byte("secret")
+
 func AddRoutes(router *mux.Router,expenseResource *ExpenseResource, tokenResource *TokenResource) {
 	//expense
 	expense := router.PathPrefix(ExpensesRoot).Subrouter()
