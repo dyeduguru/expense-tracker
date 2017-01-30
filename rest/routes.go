@@ -8,5 +8,9 @@ import (
 func AddRoutes(router *mux.Router,expenseResource *ExpenseResource) {
 	//expense
 	expense := router.PathPrefix(ExpensesRoot).Subrouter()
-	expense.Methods("GET").Handler(http.HandlerFunc(expenseResource.List))
+	expense.Methods("GET").Handler(jwtMiddleware.Handler(http.HandlerFunc(expenseResource.List)))
+
+	//security
+	token := router.PathPrefix(TokenRoot).Subrouter()
+	token.Methods("GET").Handler(GetTokenHandler)
 }
