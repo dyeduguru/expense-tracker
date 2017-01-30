@@ -38,20 +38,13 @@ func (s *ExpenseStore) ReadAll() (api.Expenses, error) {
 	return getExpensesFromRows(rows)
 }
 
-func (s *ExpenseStore) Read(id string) (*api.Expense, error) {
-	rows, err := s.db.Query("select * from expenses where $1=$2;", "id", id)
+func (s *ExpenseStore) Read(userid string) (api.Expenses, error) {
+	rows, err := s.db.Query("select * from expenses where $1=$2;", "id", userid)
 	if err != nil {
 		return nil, stacktrace.Propagate(err, "")
 	}
 	defer rows.Close()
-	expenses, err := getExpensesFromRows(rows)
-	if err != nil {
-		return nil, stacktrace.Propagate(err, "")
-	}
-	if len(expenses) != 1 {
-		return nil, stacktrace.NewError("Unexpexted number of matches")
-	}
-	return expenses[0], nil
+	return getExpensesFromRows(rows)
 }
 
 func (s *ExpenseStore) Update(exp *api.Expense) error {
@@ -86,7 +79,7 @@ func getExpensesFromRows(rows *sql.Rows) (api.Expenses, error) {
 	expenses := make(api.Expenses,0)
 	for rows.Next() {
 		expense := &api.Expense{}
-		err := rows.Scan(&expense.UserId, &expense.Amount, &expense.Description, &expense.Timestamp)
+		err := rows.Scan(&expense.Id,&expense.UserId, &expense.Amount, &expense.Description, &expense.Timestamp)
 		if err != nil {
 			return nil, stacktrace.Propagate(err, "")
 		}
