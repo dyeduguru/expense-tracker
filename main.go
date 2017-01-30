@@ -8,6 +8,8 @@ import (
 	"net/http"
 	"github.com/dyeduguru/expense-tracker/rest"
 	"github.com/dyeduguru/expense-tracker/stores"
+	"github.com/gorilla/handlers"
+	"os"
 )
 
 type Config struct {
@@ -52,7 +54,7 @@ func main() {
 
 	rest.AddRoutes(r, expenseResource)
 
-	http.ListenAndServe(":3000", r)
+	http.ListenAndServe(":3000", handlers.LoggingHandler(os.Stdout, r))
 
 }
 
