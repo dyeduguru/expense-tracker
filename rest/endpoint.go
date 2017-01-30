@@ -1,6 +1,7 @@
 package rest
 
 const (
-	ExpensesRoot = "/expenses"
+	ExpensesRoot = "/expense"
 	TokenRoot = "/token"
+	UserRoot = "/user"
 )

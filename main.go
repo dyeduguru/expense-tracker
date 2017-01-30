@@ -67,7 +67,8 @@ func main() {
 	expenseStore := stores.NewExpenseStore(db)
 	userStore := stores.NewUserStore(db)
 	expenseResource := rest.NewExpenseResource(expenseStore, userStore)
-	userResource := rest.NewTokenResource(userStore)
+	userResource := rest.NewUserResource(userStore)
+	tokenResource := rest.NewTokenResource(userStore)
 
 	r := mux.NewRouter()
 	//static
@@ -77,7 +78,7 @@ func main() {
 	//status
 	r.Handle("/status", StatusHandler).Methods("GET")
 
-	rest.AddRoutes(r, expenseResource, userResource)
+	rest.AddRoutes(r, expenseResource, userResource, tokenResource)
 
 	certPath := "keys/server.pem"
 	keyPath := "keys/server.key"
