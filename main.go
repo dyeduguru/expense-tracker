@@ -10,6 +10,8 @@ import (
 	"github.com/dyeduguru/expense-tracker/stores"
 	"github.com/gorilla/handlers"
 	"os"
+	"io/ioutil"
+	"log"
 )
 
 type Config struct {
@@ -20,7 +22,28 @@ type Config struct {
 
 const (
 	PostgresDriver = "postgres"
+	privKeyPath = "keys/app.rsa"
+	pubKeyPath = "keys/app.rsa.pub"
 )
+
+var VerifyKey, SignKey []byte
+
+
+func initKeys(){
+	var err error
+
+	SignKey, err = ioutil.ReadFile(privKeyPath)
+	if err != nil {
+		log.Fatal("Error reading private key")
+		return
+	}
+
+	VerifyKey, err = ioutil.ReadFile(pubKeyPath)
+	if err != nil {
+		log.Fatal("Error reading public key")
+		return
+	}
+}
 
 var(
 	StatusHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
@@ -42,7 +65,9 @@ func main() {
 
 	//initialize resources
 	expenseStore := stores.NewExpenseStore(db)
+	userStore := stores.NewUserStore(db)
 	expenseResource := rest.NewExpenseResource(expenseStore)
+	userResource := rest.NewTokenResource(userStore)
 
 	r := mux.NewRouter()
 	//static
@@ -52,9 +77,11 @@ func main() {
 	//status
 	r.Handle("/status", StatusHandler).Methods("GET")
 
-	rest.AddRoutes(r, expenseResource)
+	rest.AddRoutes(r, expenseResource, userResource)
 
-	http.ListenAndServe(":3000", handlers.LoggingHandler(os.Stdout, r))
+	certPath := "keys/server.pem"
+	keyPath := "keys/server.key"
+	http.ListenAndServeTLS(":3000", certPath, keyPath,handlers.LoggingHandler(os.Stdout, r))
 
 }
 

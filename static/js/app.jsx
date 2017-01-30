@@ -24,6 +24,7 @@ var Home = React.createClass({
   }
 });
 
+
 ReactDOM.render(
   <App />,
   document.getElementById('app')

@@ -30,7 +30,7 @@ func (s *UserStore) Create(user *api.User) error {
 }
 
 func (s *UserStore) Read(username string) (*api.User, error) {
-	rows, err := s.db.Query("select * from expenses where $1=$2;", "username", username)
+	rows, err := s.db.Query("select * from users where username = $1;", username)
 	if err != nil {
 		return nil, stacktrace.Propagate(err, "")
 	}
@@ -40,7 +40,7 @@ func (s *UserStore) Read(username string) (*api.User, error) {
 		return nil, stacktrace.Propagate(err, "")
 	}
 	if len(users) != 1 {
-		return nil, stacktrace.NewError("Unexpexted number of matches")
+		return nil, stacktrace.NewError("Unexpexted number of matches with username:%v. %v macthed",username, len(users))
 	}
 	return users[0], nil
 }
@@ -60,7 +60,7 @@ func (s *UserStore) Update(user *api.User) error {
 }
 
 func (s *UserStore) Delete(id string) error {
-	query := `delete from expenses where id =$1`
+	query := `delete from users where id =$1`
 	stmt, err := s.db.Prepare(query)
 	if err != nil {
 		stacktrace.Propagate(err, "")

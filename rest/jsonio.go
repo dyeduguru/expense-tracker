@@ -4,6 +4,8 @@ import (
 	"net/http"
 	"encoding/json"
 	"log"
+	"github.com/palantir/stacktrace"
+	"io/ioutil"
 )
 
 func WriteJSON(w http.ResponseWriter, obj interface{}, status int) {
@@ -20,4 +22,16 @@ func WriteJSON(w http.ResponseWriter, obj interface{}, status int) {
 	if err != nil {
 		log.Fatalf("Failed to write %v to the caller", string(data))
 	}
+}
+
+func ReadBody(r *http.Request) ([]byte, error) {
+	if r == nil || r.Body == nil {
+		return nil, stacktrace.NewError("request bidy empty")
+	}
+
+	data, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		return nil, stacktrace.Propagate(err, "cannot read input")
+	}
+	return data, nil
 }
