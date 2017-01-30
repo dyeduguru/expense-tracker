@@ -4,10 +4,10 @@ import "time"
 
 type Expenses []*Expense
 type Expense struct {
-	Id string
-	UserId string
-	Timestamp time.Time
-	Amount float32
+	Id          string
+	UserId      string
+	Timestamp   time.Time
+	Amount      float32
 	Description string
 }
 

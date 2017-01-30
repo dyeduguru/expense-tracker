@@ -1,20 +1,20 @@
 package rest
 
 import (
+	"encoding/json"
 	"github.com/dyeduguru/expense-tracker/api"
 	"net/http"
-	"encoding/json"
 )
 
 type ExpenseResource struct {
 	expenseStore api.ExpenseStore
-	userStore api.UserStore
+	userStore    api.UserStore
 }
 
 func NewExpenseResource(expenseStore api.ExpenseStore, userStore api.UserStore) *ExpenseResource {
 	return &ExpenseResource{
-		expenseStore:expenseStore,
-		userStore:userStore,
+		expenseStore: expenseStore,
+		userStore:    userStore,
 	}
 }
 

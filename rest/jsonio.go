@@ -1,11 +1,11 @@
 package rest
 
 import (
-	"net/http"
 	"encoding/json"
-	"log"
 	"github.com/palantir/stacktrace"
 	"io/ioutil"
+	"log"
+	"net/http"
 )
 
 func WriteJSON(w http.ResponseWriter, obj interface{}, status int) {

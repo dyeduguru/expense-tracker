@@ -1,18 +1,18 @@
 package rest
 
 import (
-	"net/http"
 	"github.com/dgrijalva/jwt-go"
+	"net/http"
 	"time"
 
 	"encoding/json"
-	"github.com/dyeduguru/expense-tracker/stores"
-	"log"
 	"errors"
 	"fmt"
 	"github.com/dyeduguru/expense-tracker/api"
+	"github.com/dyeduguru/expense-tracker/stores"
 	"github.com/gorilla/context"
 	"github.com/palantir/stacktrace"
+	"log"
 )
 
 type TokenResource struct {
@@ -20,15 +20,15 @@ type TokenResource struct {
 }
 
 type UserCredentials struct {
-	Username	string  `json:"username"`
-	Password	string	`json:"password"`
+	Username string `json:"username"`
+	Password string `json:"password"`
 }
 
 func NewTokenResource(userStore *stores.UserStore) *TokenResource {
-	return &TokenResource{userStore:userStore}
+	return &TokenResource{userStore: userStore}
 }
 
-func(tr *TokenResource) GetToken(w http.ResponseWriter, r *http.Request){
+func (tr *TokenResource) GetToken(w http.ResponseWriter, r *http.Request) {
 	var user UserCredentials
 	inputBytes, err := ReadBody(r)
 	if err != nil {
@@ -69,7 +69,7 @@ func(tr *TokenResource) GetToken(w http.ResponseWriter, r *http.Request){
 }
 
 func GetUserFromRequest(r *http.Request, userStore api.UserStore) (*api.User, error) {
-	parsedToken := context.Get(r,"user").(*jwt.Token)
+	parsedToken := context.Get(r, "user").(*jwt.Token)
 	if parsedToken == nil {
 		return nil, stacktrace.NewError("User not set on request")
 	}

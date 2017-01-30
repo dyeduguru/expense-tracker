@@ -1,64 +1,36 @@
 package main
 
 import (
-	"fmt"
 	"database/sql"
-	_ "github.com/lib/pq"
-	"github.com/gorilla/mux"
-	"net/http"
+	"fmt"
 	"github.com/dyeduguru/expense-tracker/rest"
 	"github.com/dyeduguru/expense-tracker/stores"
 	"github.com/gorilla/handlers"
+	"github.com/gorilla/mux"
+	_ "github.com/lib/pq"
+	"net/http"
 	"os"
-	"io/ioutil"
-	"log"
 )
 
 type Config struct {
-	User string
+	User     string
 	Database string
-	Port int
+	Port     int
 }
 
 const (
 	PostgresDriver = "postgres"
-	privKeyPath = "keys/app.rsa"
-	pubKeyPath = "keys/app.rsa.pub"
 )
 
-var VerifyKey, SignKey []byte
-
-
-func initKeys(){
-	var err error
-
-	SignKey, err = ioutil.ReadFile(privKeyPath)
-	if err != nil {
-		log.Fatal("Error reading private key")
-		return
-	}
-
-	VerifyKey, err = ioutil.ReadFile(pubKeyPath)
-	if err != nil {
-		log.Fatal("Error reading public key")
-		return
-	}
-}
-
-var(
-	StatusHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+var (
+	StatusHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("API is up and running"))
 	})
-	NotImplemented = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
-		w.Write([]byte("Not Implemented"))
-	})
 )
-
-
 
 func main() {
 	config := &Config{
-		User: "dinesh",
+		User:     "dinesh",
 		Database: "expense-tracker",
 	}
 	db := initDB(config)
@@ -82,7 +54,7 @@ func main() {
 
 	certPath := "keys/server.pem"
 	keyPath := "keys/server.key"
-	http.ListenAndServeTLS(":3000", certPath, keyPath,handlers.LoggingHandler(os.Stdout, r))
+	http.ListenAndServeTLS(":3000", certPath, keyPath, handlers.LoggingHandler(os.Stdout, r))
 
 }
 

@@ -1,9 +1,9 @@
 package rest
 
 import (
+	"encoding/json"
 	"github.com/dyeduguru/expense-tracker/api"
 	"net/http"
-	"encoding/json"
 )
 
 type UserResource struct {
@@ -12,7 +12,7 @@ type UserResource struct {
 
 func NewUserResource(userStore api.UserStore) *UserResource {
 	return &UserResource{
-		userStore:userStore,
+		userStore: userStore,
 	}
 }
 

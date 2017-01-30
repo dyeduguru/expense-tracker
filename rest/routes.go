@@ -1,15 +1,15 @@
 package rest
 
 import (
-	"github.com/gorilla/mux"
-	"net/http"
 	"github.com/auth0/go-jwt-middleware"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/gorilla/mux"
+	"net/http"
 )
 
 var mySigningKey = []byte("secret")
 
-func AddRoutes(router *mux.Router,expenseResource *ExpenseResource, userResource *UserResource, tokenResource *TokenResource) {
+func AddRoutes(router *mux.Router, expenseResource *ExpenseResource, userResource *UserResource, tokenResource *TokenResource) {
 	//expense
 	expense := router.PathPrefix(ExpensesRoot).Subrouter()
 	expense.Methods("GET").Handler(jwtMiddleware.Handler(http.HandlerFunc(expenseResource.Read)))
@@ -20,7 +20,6 @@ func AddRoutes(router *mux.Router,expenseResource *ExpenseResource, userResource
 	//users
 	user := router.PathPrefix(UserRoot).Subrouter()
 	user.Methods("POST").Handler(http.HandlerFunc(userResource.Create))
-
 
 	//security
 	token := router.PathPrefix(TokenRoot).Subrouter()

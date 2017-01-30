@@ -6,12 +6,12 @@ import (
 	"github.com/palantir/stacktrace"
 )
 
-type UserStore struct{
+type UserStore struct {
 	db *sql.DB
 }
 
 func NewUserStore(db *sql.DB) *UserStore {
-	return &UserStore{db:db}
+	return &UserStore{db: db}
 }
 
 func (s *UserStore) Create(user *api.User) error {
@@ -22,7 +22,7 @@ func (s *UserStore) Create(user *api.User) error {
 		stacktrace.Propagate(err, "")
 	}
 	defer stmt.Close()
-	_, err = stmt.Exec(user.Id, user.Admin, user.UserName,user.Password,user.Name)
+	_, err = stmt.Exec(user.Id, user.Admin, user.UserName, user.Password, user.Name)
 	if err != nil {
 		return stacktrace.Propagate(err, "")
 	}
@@ -40,7 +40,7 @@ func (s *UserStore) Read(username string) (*api.User, error) {
 		return nil, stacktrace.Propagate(err, "")
 	}
 	if len(users) != 1 {
-		return nil, stacktrace.NewError("Unexpexted number of matches with username:%v. %v macthed",username, len(users))
+		return nil, stacktrace.NewError("Unexpexted number of matches with username:%v. %v macthed", username, len(users))
 	}
 	return users[0], nil
 }
@@ -74,7 +74,7 @@ func (s *UserStore) Delete(id string) error {
 }
 
 func getUsersFromRows(rows *sql.Rows) (api.Users, error) {
-	users := make(api.Users,0)
+	users := make(api.Users, 0)
 	for rows.Next() {
 		user := &api.User{}
 		err := rows.Scan(&user.Id, &user.Admin, &user.UserName, &user.Password, &user.Name)

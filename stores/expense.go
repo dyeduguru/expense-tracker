@@ -2,16 +2,16 @@ package stores
 
 import (
 	"database/sql"
-	"github.com/palantir/stacktrace"
 	"github.com/dyeduguru/expense-tracker/api"
+	"github.com/palantir/stacktrace"
 )
 
-type ExpenseStore struct{
+type ExpenseStore struct {
 	db *sql.DB
 }
 
 func NewExpenseStore(db *sql.DB) *ExpenseStore {
-	return &ExpenseStore{db:db}
+	return &ExpenseStore{db: db}
 }
 
 func (s *ExpenseStore) Create(exp *api.Expense) error {
@@ -22,7 +22,7 @@ func (s *ExpenseStore) Create(exp *api.Expense) error {
 		stacktrace.Propagate(err, "")
 	}
 	defer stmt.Close()
-	_, err = stmt.Exec(exp.Id, exp.UserId, exp.Amount,exp.Description,exp.Timestamp)
+	_, err = stmt.Exec(exp.Id, exp.UserId, exp.Amount, exp.Description, exp.Timestamp)
 	if err != nil {
 		return stacktrace.Propagate(err, "")
 	}
@@ -54,7 +54,7 @@ func (s *ExpenseStore) Update(exp *api.Expense) error {
 		stacktrace.Propagate(err, "")
 	}
 	defer stmt.Close()
-	_, err = stmt.Exec(exp.Id, exp.UserId, exp.Amount,exp.Description,exp.Timestamp)
+	_, err = stmt.Exec(exp.Id, exp.UserId, exp.Amount, exp.Description, exp.Timestamp)
 	if err != nil {
 		return stacktrace.Propagate(err, "")
 	}
@@ -76,10 +76,10 @@ func (s *ExpenseStore) Delete(id string) error {
 }
 
 func getExpensesFromRows(rows *sql.Rows) (api.Expenses, error) {
-	expenses := make(api.Expenses,0)
+	expenses := make(api.Expenses, 0)
 	for rows.Next() {
 		expense := &api.Expense{}
-		err := rows.Scan(&expense.Id,&expense.UserId, &expense.Amount, &expense.Description, &expense.Timestamp)
+		err := rows.Scan(&expense.Id, &expense.UserId, &expense.Amount, &expense.Description, &expense.Timestamp)
 		if err != nil {
 			return nil, stacktrace.Propagate(err, "")
 		}
