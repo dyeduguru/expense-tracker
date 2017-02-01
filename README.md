@@ -1,6 +1,6 @@
 # Expense Tracker
 
-Simple App to track expenses. Uses REST API to and JWT auth in the backend and a React frontend
+Simple App to track expenses. Uses REST api with JWT auth written in go in the backend and a React frontend
 
 # Setup
 * For setting up this project, go get using the following command
