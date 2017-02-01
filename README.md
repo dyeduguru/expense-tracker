@@ -1,9 +1,11 @@
 # Expense Tracker
 
+Simple App to track expenses. Uses REST API to and JWT auth in the backend and a React frontend
+
 # Setup
-* For setting up this project, clone/download this project into the following path: 
+* For setting up this project, go get using the following command
 ```
-$GOPATH/dyeduguru/expense-tracker
+go get github.com/dyeduguru/expense-tracker
 ```
 * Configure postgres sql connection in main.go
 * Run the following command to build the executable:
